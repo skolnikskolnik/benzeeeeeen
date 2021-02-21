@@ -21,7 +21,7 @@ export default function NavBar() {
       flexGrow: 1,
     },
     navBar: {
-      backgroundColor: "#aaa0ff"
+      backgroundColor: "#363A59"
     },
       grow: {
     flexGrow: 1,
@@ -89,14 +89,14 @@ export default function NavBar() {
     setAnchorEl(null);
   };
 
-  const navBookSearch = () => {
+  const navHome = () => {
     setAnchorEl(null);
     window.location.href = "/";
   };
 
-  const navBookshelf = () => {
+  const navAcidDb = () => {
     setAnchorEl(null);
-    window.location.href = "/saved";
+    window.location.href = "/aciddatabase";
   };
 
 
@@ -128,10 +128,10 @@ export default function NavBar() {
               open={open}
               onClose={handleClose}
             > 
-              <MenuItem onClick={navBookshelf} >
+              <MenuItem onClick={navAcidDb} >
 
-                My Bookshelf</MenuItem>
-              <MenuItem onClick={navBookSearch} >Google Book Search</MenuItem>
+                Acid database</MenuItem>
+              <MenuItem onClick={navHome} >Home</MenuItem>
             </Menu>
           </IconButton>
         

@@ -7,6 +7,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -57,6 +58,8 @@ export default function CustomizedTables() {
             <StyledTableCell align="right">Chemical formula</StyledTableCell>
             <StyledTableCell align="right">pKa</StyledTableCell>
             <StyledTableCell align="right">Ka</StyledTableCell>
+            <StyledTableCell align="right">Edit entry</StyledTableCell>
+            <StyledTableCell align="right">Delete entry</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -68,6 +71,16 @@ export default function CustomizedTables() {
               <StyledTableCell align="right">{row.formula}</StyledTableCell>
               <StyledTableCell align="right">{row.pKa}</StyledTableCell>
               <StyledTableCell align="right">{row.Ka}</StyledTableCell>
+              <StyledTableCell align="right">
+                <Button variant="contained" color="primary">
+                  Edit entry
+</Button>
+              </StyledTableCell>
+              <StyledTableCell align="right">
+                <Button variant="contained" color="secondary">
+                  Delete entry
+</Button>
+              </StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

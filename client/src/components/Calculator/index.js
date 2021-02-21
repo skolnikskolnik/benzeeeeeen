@@ -9,37 +9,51 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'column',
         alignItems: 'center',
         '& > *': {
-            margin: theme.spacing(1),
+            margin: theme.spacing(0),
         },
     },
+    calculator: {
+        height: "60px",
+        width: "90px",
+        backgroundColor: "#07BEB8",
+        color: "white"
+    },
 }));
+
+const handleBtnClick = event => {
+    event.preventDefault();
+    console.log(event.currentTarget.value);
+}
 
 export default function BasicButtonGroup() {
     const classes = useStyles();
 
     return (
         <div className={classes.root}>
-            <ButtonGroup color="primary" aria-label="outlined primary button group">
-                <Button>7</Button>
-                <Button>8</Button>
-                <Button>9</Button>
-                <Button>^</Button>
+            <ButtonGroup size="large" aria-label="outlined primary button group">
+                <Button className={classes.calculator} onClick={handleBtnClick} value="7">7</Button>
+                <Button className={classes.calculator} onClick={handleBtnClick} value="8">8</Button>
+                <Button className={classes.calculator} onClick={handleBtnClick} value="9">9</Button>
+                <Button className={classes.calculator} onClick={handleBtnClick} value="^">^</Button>
             </ButtonGroup>
-            <ButtonGroup color="primary" aria-label="outlined primary button group">
-                <Button>4</Button>
-                <Button>5</Button>
-                <Button>6</Button>
-                <Button>-</Button>
+            <ButtonGroup  size="large" aria-label="outlined primary button group">
+                <Button className={classes.calculator} onClick={handleBtnClick} value="4">4</Button>
+                <Button className={classes.calculator} onClick={handleBtnClick} value="5">5</Button>
+                <Button className={classes.calculator} onClick={handleBtnClick} value="6">6</Button>
+                <Button className={classes.calculator} onClick={handleBtnClick} value="-">-</Button>
             </ButtonGroup>
-            <ButtonGroup color="primary" aria-label="outlined primary button group">
-                <Button>1</Button>
-                <Button>2</Button>
-                <Button>3</Button>
-                <Button>*</Button>
+            <ButtonGroup  size="large" aria-label="outlined primary button group">
+                <Button className={classes.calculator} onClick={handleBtnClick} value="1">1</Button>
+                <Button className={classes.calculator} onClick={handleBtnClick} value="2">2</Button>
+                <Button className={classes.calculator} onClick={handleBtnClick} value="3">3</Button>
+                <Button className={classes.calculator} onClick={handleBtnClick} value="*">*</Button>
             </ButtonGroup>
-            <Button variant="contained" color="secondary">
-                Submit
-</Button>
+            <ButtonGroup  size="large" aria-label="outlined primary button group">
+                <Button className={classes.calculator} onClick={handleBtnClick} value="0">0</Button>
+                <Button className={classes.calculator} onClick={handleBtnClick}value=".">.</Button>
+                <Button className={classes.calculator} onClick={handleBtnClick} value="Delete">Del</Button>
+                <Button className={classes.calculator} onClick={handleBtnClick} value="Clear">Clear</Button>
+            </ButtonGroup>
         </div>
     );
 }
