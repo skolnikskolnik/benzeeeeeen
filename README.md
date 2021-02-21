@@ -6,11 +6,9 @@
 # Table of contents
 1. [Description](#Description)
 2. [Installation instructions](#Installation-instructions)
-3. [Usage](#usage)
-4. [Contributions](#Contributions)
-5. [Testing instructions](#Testing-instructions)
-6. [License](#License)
-7. [Questions](#Questions)
+3. [Contributions](#Contributions)
+4. [License](#License)
+5. [Questions](#Questions)
 
 ## Description: 
 This is an in-progress application for chemistry teachers, by chemistry teachers. 
