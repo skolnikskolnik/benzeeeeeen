@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Container } from "../components/Grid";
 import { makeStyles } from '@material-ui/core/styles';
 import "../styles/homepage.css";
@@ -43,24 +43,31 @@ const useStyles = makeStyles((theme) => ({
 
 function AcidDatabase() {
   const classes = useStyles();
+  const [acidValue, setAcidValue] = useState('pKa');
+  const [displayString, setDisplayString] = useState("");
 
-  const [acidValue, setAcidValue] = React.useState('pKa');
+  //Takes data from the calculator and turns it into a displayed string
+  const handleBtnClick = event => {
+    event.preventDefault();
 
-  const handleSearchSubmit = e => {
-    e.preventDefault();
+    let currentValue = event.currentTarget.value;
+    if((currentValue == "0")||(currentValue == "1")||(currentValue == "2")||(currentValue == "3")||(currentValue == "4")||(currentValue == "5")||(currentValue == "6")||(currentValue == "7")||(currentValue == "8")||(currentValue == "9")||(currentValue == "^")||(currentValue == "-")||(currentValue == "*")||(currentValue == ".")){
+      setDisplayString(displayString + currentValue);
+    } else if (currentValue == "Delete"){
+      let stringToDisplay = displayString;
+      stringToDisplay = stringToDisplay.substring(0, stringToDisplay.length -1);
+      setDisplayString(stringToDisplay);
+    } else {
+      setDisplayString("");
+    }
+
   }
 
-  const handleInputChange = event => {
-    // Destructure the name and value properties off of event.target
-    // Update the appropriate state
-    const { value } = event.target;
-
-
-  };
 
   const handleRadioChange = (event) => {
     setAcidValue(event.target.value);
   };
+
 
   return (
     <Container fluid>
@@ -72,13 +79,15 @@ function AcidDatabase() {
               <Input className={classes.acidInfo} defaultValue="pKa" inputProps={{ 'aria-label': 'description' }} />
               <Input className={classes.acidInfo} defaultValue="Ka" inputProps={{ 'aria-label': 'description' }} />
             </div>
-            <TextField className={classes.display} id="outlined-basic" label="pKa or Ka displayed here" variant="outlined" />
-            <Calculator />
-              <RadioGroup aria-label="pKaorKa" name="pKaorKa" value={acidValue} onChange={handleRadioChange}>
-                <FormControlLabel value="pKa" control={<Radio />} label="pKa" />
-                <FormControlLabel value="Ka" control={<Radio />} label="Ka" />
-              </RadioGroup>
-              <Box textAlign='center'>
+            <TextField className={classes.display} id="outlined-basic" label={displayString} variant="outlined" />
+            <Calculator
+              id="acidpKa"
+              handleBtnClick={handleBtnClick} />
+            <RadioGroup aria-label="pKaorKa" name="pKaorKa" value={acidValue} onChange={handleRadioChange}>
+              <FormControlLabel value="pKa" control={<Radio />} label="pKa" />
+              <FormControlLabel value="Ka" control={<Radio />} label="Ka" />
+            </RadioGroup>
+            <Box textAlign='center'>
               <Button className={classes.submit} variant="contained" color="secondary">
                 Submit new acid to database
             </Button>

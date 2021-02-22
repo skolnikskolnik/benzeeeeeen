@@ -20,39 +20,35 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const handleBtnClick = event => {
-    event.preventDefault();
-    console.log(event.currentTarget.value);
-}
 
-export default function BasicButtonGroup() {
+export default function BasicButtonGroup(props) {
     const classes = useStyles();
 
     return (
         <div className={classes.root}>
             <ButtonGroup size="large" aria-label="outlined primary button group">
-                <Button className={classes.calculator} onClick={handleBtnClick} value="7">7</Button>
-                <Button className={classes.calculator} onClick={handleBtnClick} value="8">8</Button>
-                <Button className={classes.calculator} onClick={handleBtnClick} value="9">9</Button>
-                <Button className={classes.calculator} onClick={handleBtnClick} value="^">^</Button>
+                <Button className={classes.calculator} onClick={props.handleBtnClick} value="7">7</Button>
+                <Button className={classes.calculator} onClick={props.handleBtnClick} value="8">8</Button>
+                <Button className={classes.calculator} onClick={props.handleBtnClick} value="9">9</Button>
+                <Button className={classes.calculator} onClick={props.handleBtnClick} value="^">^</Button>
             </ButtonGroup>
             <ButtonGroup  size="large" aria-label="outlined primary button group">
-                <Button className={classes.calculator} onClick={handleBtnClick} value="4">4</Button>
-                <Button className={classes.calculator} onClick={handleBtnClick} value="5">5</Button>
-                <Button className={classes.calculator} onClick={handleBtnClick} value="6">6</Button>
-                <Button className={classes.calculator} onClick={handleBtnClick} value="-">-</Button>
+                <Button className={classes.calculator} onClick={props.handleBtnClick} value="4">4</Button>
+                <Button className={classes.calculator} onClick={props.handleBtnClick} value="5">5</Button>
+                <Button className={classes.calculator} onClick={props.handleBtnClick} value="6">6</Button>
+                <Button className={classes.calculator} onClick={props.handleBtnClick} value="-">-</Button>
             </ButtonGroup>
             <ButtonGroup  size="large" aria-label="outlined primary button group">
-                <Button className={classes.calculator} onClick={handleBtnClick} value="1">1</Button>
-                <Button className={classes.calculator} onClick={handleBtnClick} value="2">2</Button>
-                <Button className={classes.calculator} onClick={handleBtnClick} value="3">3</Button>
-                <Button className={classes.calculator} onClick={handleBtnClick} value="*">*</Button>
+                <Button className={classes.calculator} onClick={props.handleBtnClick} value="1">1</Button>
+                <Button className={classes.calculator} onClick={props.handleBtnClick} value="2">2</Button>
+                <Button className={classes.calculator} onClick={props.handleBtnClick} value="3">3</Button>
+                <Button className={classes.calculator} onClick={props.handleBtnClick} value="*">*</Button>
             </ButtonGroup>
             <ButtonGroup  size="large" aria-label="outlined primary button group">
-                <Button className={classes.calculator} onClick={handleBtnClick} value="0">0</Button>
-                <Button className={classes.calculator} onClick={handleBtnClick}value=".">.</Button>
-                <Button className={classes.calculator} onClick={handleBtnClick} value="Delete">Del</Button>
-                <Button className={classes.calculator} onClick={handleBtnClick} value="Clear">Clear</Button>
+                <Button className={classes.calculator} onClick={props.handleBtnClick} value="0">0</Button>
+                <Button className={classes.calculator} onClick={props.handleBtnClick}value=".">.</Button>
+                <Button className={classes.calculator} onClick={props.handleBtnClick} value="Delete">Del</Button>
+                <Button className={classes.calculator} onClick={props.handleBtnClick} value="Clear">Clear</Button>
             </ButtonGroup>
         </div>
     );
