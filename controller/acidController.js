@@ -12,6 +12,8 @@ module.exports = {
 
     //Creates a new acid in the db
     create: function (req, res) {
+        console.log(req.body);
+        
         db.Acid
             .create(req.body)
             .then(dbModel => res.json(dbModel))

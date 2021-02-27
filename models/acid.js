@@ -3,8 +3,8 @@ const Schema = mongoose.Schema;
 
 const acidSchema = new Schema({
   name: {type: String, required:true},
-  pKa: Number,
-  Ka: Number
+  pKa: {type: String, required:true},
+  Ka: {type: String, required:true}
 });
 
 const Acid = mongoose.model("Acid", acidSchema);

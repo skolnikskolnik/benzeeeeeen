@@ -12,6 +12,8 @@ import TextField from '@material-ui/core/TextField';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
+import API from "../utils/API";
+import Alert from "../components/Alert";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -41,64 +43,131 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+
+
 function AcidDatabase() {
   const classes = useStyles();
-  const [acidValue, setAcidValue] = useState('pKa');
+  const [acidValue, setAcidValue] = useState("pKa");
+  const [acidName, setAcidName] = useState("");
   const [displayString, setDisplayString] = useState("");
+  const [acidList, setAcidList] = useState([]);
+
+  //Loads all acids currently in the db
+  useEffect(() => {
+    loadAcids()
+  }, []);
+
+  //Gets acids from the db
+  const loadAcids = () => {
+    API.getAllAcids()
+    .then(res => {
+      console.log(res.data);
+      setAcidList(res.data);
+    })
+  }
 
   //Takes data from the calculator and turns it into a displayed string
   const handleBtnClick = event => {
     event.preventDefault();
 
     let currentValue = event.currentTarget.value;
-    if((currentValue == "0")||(currentValue == "1")||(currentValue == "2")||(currentValue == "3")||(currentValue == "4")||(currentValue == "5")||(currentValue == "6")||(currentValue == "7")||(currentValue == "8")||(currentValue == "9")||(currentValue == "^")||(currentValue == "-")||(currentValue == "*")||(currentValue == ".")){
+    if ((currentValue == "0") || (currentValue == "1") || (currentValue == "2") || (currentValue == "3") || (currentValue == "4") || (currentValue == "5") || (currentValue == "6") || (currentValue == "7") || (currentValue == "8") || (currentValue == "9") || (currentValue == "^") || (currentValue == "-") || (currentValue == "*") || (currentValue == ".")) {
+      //Need to convert to tex
       setDisplayString(displayString + currentValue);
-    } else if (currentValue == "Delete"){
+    } else if (currentValue == "Delete") {
       let stringToDisplay = displayString;
-      stringToDisplay = stringToDisplay.substring(0, stringToDisplay.length -1);
+      stringToDisplay = stringToDisplay.substring(0, stringToDisplay.length - 1);
+      //Need to convert to tex
       setDisplayString(stringToDisplay);
     } else {
+      //Need to convert to tex
       setDisplayString("");
     }
+  }
+
+  //Generates the object to enter to the db
+  const generateAcidData = event => {
+    event.preventDefault();
+    //Need to get the values from the inputs
+    //Starting with the radio dial
+    let pKa = 0;
+    let valKa = 0;
+
+    if (acidValue == "pKa") {
+      pKa = parseFloat(displayString);
+      pKa = pKa.toFixed(4);
+      //Calculate Ka from pKa
+      valKa = Math.pow(10, (-1 * pKa));
+      valKa = valKa.toFixed(6);
+
+
+    } else {
+      console.log("Ka");
+    }
+
+    let inputObject = {
+      name: acidName,
+      pKa: pKa,
+      Ka: valKa
+    }
+
+
+    API.addAcidToDB(inputObject)
+      .then(() => {
+        setSuccessOpen(true);
+      })
+      .catch(err => console.log(err));
+
+      window.location.reload(true);
+  }
+
+  //Toggles between pKa and Ka
+  const manageRadio = event => {
+    event.preventDefault();
+    let inputType = event.target.value;
+    setAcidValue(inputType);
 
   }
 
+  //Gets acid name
+  const handleChange = event => {
+    event.preventDefault();
+    let { value } = event.target;
+    setAcidName(value);
+  }
 
-  const handleRadioChange = (event) => {
-    setAcidValue(event.target.value);
-  };
 
 
   return (
     <Container fluid>
       <Grid container spacing={3}>
+        {/* <Display /> */}
         <Grid item xs={4}>
           <form className={classes.root} noValidate autoComplete="off">
             <div>
-              <Input className={classes.acidName} defaultValue="Acid name" inputProps={{ 'aria-label': 'description' }} />
-              <Input className={classes.acidInfo} defaultValue="pKa" inputProps={{ 'aria-label': 'description' }} />
-              <Input className={classes.acidInfo} defaultValue="Ka" inputProps={{ 'aria-label': 'description' }} />
+              <Input className={classes.acidName} onChange={handleChange} placeholder="Acid name" inputProps={{ 'aria-label': 'description' }} />
             </div>
-            <TextField className={classes.display} id="outlined-basic" label={displayString} variant="outlined" />
+            <TextField className={classes.display} id="outlined-basic" value={displayString} variant="outlined" />
             <Calculator
               id="acidpKa"
               handleBtnClick={handleBtnClick} />
-            <RadioGroup aria-label="pKaorKa" name="pKaorKa" value={acidValue} onChange={handleRadioChange}>
-              <FormControlLabel value="pKa" control={<Radio />} label="pKa" />
-              <FormControlLabel value="Ka" control={<Radio />} label="Ka" />
+            <RadioGroup aria-label="pKaorKa" name="pKaorKa" value={acidValue}>
+              <FormControlLabel onChange={manageRadio} value="pKa" control={<Radio />} label="pKa" />
+              <FormControlLabel onChange={manageRadio} value="Ka" control={<Radio />} label="Ka" />
             </RadioGroup>
             <Box textAlign='center'>
-              <Button className={classes.submit} variant="contained" color="secondary">
+              <Button className={classes.submit} variant="contained" color="secondary" onClick={generateAcidData}>
                 Submit new acid to database
             </Button>
             </Box>
           </form>
+
         </Grid>
         <Grid item xs={8}>
-          <Table />
+          <Table acidList={acidList} />
         </Grid>
       </Grid>
-    </Container>
+    </Container >
   );
 }
 
