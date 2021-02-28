@@ -90,27 +90,54 @@ function AcidDatabase() {
       pKa = pKa.toFixed(4);
       //Calculate Ka from pKa
       valKa = Math.pow(10, (-1 * pKa));
-      valKa = valKa.toFixed(6);
+      valKa = valKa.toFixed(10);
 
-
+      insertIntoDB(pKa, valKa);
     } else {
-      console.log("Ka");
+      valKa = displayString;
+      let valKaSplit = valKa.split("*10^-");
+
+      //This will have two elements if entered in sci notation and one if entered in standard notation
+      if (valKaSplit.length == 1) {
+        valKa = parseFloat(valKa);
+        valKa = valKa.toFixed(10);
+        pKa = -1 * log10(valKa);
+        pKa = pKa.toFixed(4);
+
+        insertIntoDB(pKa, valKa);
+        //If it is entered in scientific notation
+      } else if (valKaSplit.length == 2) {
+        let regNumKa = valKaSplit[0];
+        regNumKa = parseFloat(regNumKa);
+        let powerOfTen = valKaSplit[1];
+        powerOfTen = parseFloat(powerOfTen);
+
+        valKa = regNumKa * Math.pow(10, -1 * powerOfTen);
+        valKa = valKa.toFixed(10);
+        pKa = -1 * log10(valKa);
+        pKa = pKa.toFixed(4);
+
+        insertIntoDB(pKa, valKa);
+      }
     }
 
+  }
+
+  //Adds an acid to the db from the info given
+  const insertIntoDB = (pKa, Ka) => {
     let inputObject = {
       name: acidName,
       pKa: pKa,
-      Ka: valKa
+      Ka, Ka
     }
 
-
     API.addAcidToDB(inputObject)
-      .then(() => {
-        setSuccessOpen(true);
-      })
-      .catch(err => console.log(err));
+    .then(() => {
+      setSuccessOpen(true);
+    })
+    .catch(err => console.log(err));
 
-      window.location.reload(true);
+    window.location.reload(true);
   }
 
   //Toggles between pKa and Ka
@@ -128,7 +155,10 @@ function AcidDatabase() {
     setAcidName(value);
   }
 
-
+  //Function for log base 10
+  const log10 = val => {
+    return Math.log(val) / Math.LN10;
+  }
 
   return (
     <Container fluid>
