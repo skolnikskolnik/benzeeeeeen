@@ -54,17 +54,9 @@ function AcidDatabase() {
 
   //Loads all acids currently in the db
   useEffect(() => {
-    loadAcids()
+    // loadAcids()
   }, []);
 
-  //Gets acids from the db
-  const loadAcids = () => {
-    API.getAllAcids()
-    .then(res => {
-      console.log(res.data);
-      setAcidList(res.data);
-    })
-  }
 
   //Takes data from the calculator and turns it into a displayed string
   const handleBtnClick = event => {
@@ -164,7 +156,7 @@ function AcidDatabase() {
 
         </Grid>
         <Grid item xs={8}>
-          <Table acidList={acidList} />
+          <Table />
         </Grid>
       </Grid>
     </Container >

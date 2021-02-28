@@ -23,7 +23,7 @@ module.exports = {
     //Deletes an acid from the db
     remove: function (req, res) {
         db.Acid
-            .findById({ _id: req.params.search })
+            .findById({ _id: req.params.id })
             .then(dbModel => dbModel.remove())
             .then(dbModel => res.json(dbModel))
             .catch(err => res.status(422).json(err));

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -8,6 +8,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
+import API from "../../utils/API";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -33,8 +34,33 @@ const useStyles = makeStyles({
   },
 });
 
+
+
+
 export default function CustomizedTables(props) {
   const classes = useStyles();
+  const [acidList, setAcidList] = useState([]);
+  
+  //Loads all acids currently in the db
+  useEffect(() => {
+    loadAcids()
+  }, []);
+
+  //Gets acids from the db
+  const loadAcids = () => {
+    API.getAllAcids()
+    .then(res => {
+      setAcidList(res.data);
+    })
+  }
+
+  const handleDelete = (event, idNum) => {
+    event.preventDefault();
+    //Need to target the id number to delete the acid
+    API.removeAcid(idNum)
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
+  }
 
 
 
@@ -51,22 +77,22 @@ export default function CustomizedTables(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {props.acidList.map((item) => (
-            <StyledTableRow key={item.name}>
+          {acidList.map((item, index) => (
+            <StyledTableRow key={index}>
               <StyledTableCell component="th" scope="row">
                 {item.name}
               </StyledTableCell>
               <StyledTableCell align="right">{item.pKa}</StyledTableCell>
-              <StyledTableCell align="right">{item.Ka}</StyledTableCell>
+              <StyledTableCell align="right">{item.Ka} </StyledTableCell>
               <StyledTableCell align="right">
                 <Button variant="contained" color="primary">
                   Edit entry
-</Button>
+                </Button>
               </StyledTableCell>
               <StyledTableCell align="right">
-                <Button variant="contained" color="secondary">
+                <Button onClick={event => handleDelete(event, item._id)} variant="contained" color="secondary" value={item._id}>
                   Delete entry
-</Button>
+                </Button>
               </StyledTableCell>
             </StyledTableRow>
           ))}
