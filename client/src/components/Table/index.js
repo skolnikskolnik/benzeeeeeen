@@ -36,6 +36,11 @@ const useStyles = makeStyles({
   popup: {
     padding: "25px",
     zIndex: "1"
+  },
+  container: {
+    padding: "5px",
+    margin: "10px",
+    marginRight: "5px"
   }
 });
 
@@ -135,7 +140,7 @@ export default function CustomizedTables(props) {
       className={classes.popup} 
       updateFromPopup={updateFromPopup} 
       dismissForm={dismissForm}/>
-      <TableContainer component={Paper}>
+      <TableContainer className={classes.container} component={Paper}>
         <Table className={classes.table} aria-label="customized table">
           <TableHead>
             <TableRow>

@@ -98,6 +98,11 @@ export default function NavBar() {
     window.location.href = "/aciddatabase";
   };
 
+  const titrationNav = () => {
+    setAnchorEl(null);
+    window.location.href = "/titrationcurve";
+  }
+
 
 
   return (
@@ -127,10 +132,16 @@ export default function NavBar() {
               open={open}
               onClose={handleClose}
             > 
+                          <MenuItem onClick={navHome} >
+                Home
+                </MenuItem>
               <MenuItem onClick={navAcidDb} >
 
-                Acid database</MenuItem>
-              <MenuItem onClick={navHome} >Home</MenuItem>
+                Acid database
+                </MenuItem>
+                <MenuItem onClick={titrationNav}>
+                  Titration Curve
+                </MenuItem>
             </Menu>
           </IconButton>
         
