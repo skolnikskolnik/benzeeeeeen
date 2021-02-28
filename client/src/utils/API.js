@@ -12,5 +12,13 @@ export default {
     //Removes an acid from the database
     removeAcid: function (id) {
         return axios.delete("/api/acids/" + id);
+    },
+    updateAcid: function(id, dbInput){
+        return axios.put("/api/acids/" + id,
+        {
+            name: dbInput.name,
+            pKa: dbInput.pKa,
+            Ka: dbInput.Ka
+        });
     }
 }

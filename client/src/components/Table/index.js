@@ -47,6 +47,7 @@ export default function CustomizedTables(props) {
   const [acidList, setAcidList] = useState([]);
   const [formDisplay, setFormDisplay] = useState("none");
   const [idToEdit, setIdToEdit] = useState("");
+  const [nameToEdit, setNameToEdit] = useState("");
   const [newPka, setNewPka] = useState("");
 
   //Loads all acids currently in the db
@@ -62,6 +63,7 @@ export default function CustomizedTables(props) {
       })
   }
 
+  //On-click event for hitting the delete button
   const handleDelete = (event, idNum) => {
     event.preventDefault();
     //Need to target the id number to delete the acid
@@ -70,10 +72,10 @@ export default function CustomizedTables(props) {
       .catch(err => console.log(err));
   }
 
+  //On-click event for clicking the edit button
   const handleEdit = (event, idNum) => {
     event.preventDefault();
 
-    // console.log(idNum);
     setIdToEdit(idNum);
     //Need to bring up a form upon hitting edit
     setFormDisplay("block");
@@ -96,20 +98,26 @@ export default function CustomizedTables(props) {
     newKa = newKa.toFixed(6);
 
     let inputObject = {
-      name: idToEdit,
+      name: nameToEdit,
       pKa: pKa,
       Ka: newKa
     }
 
-    //Need a put route
+
+    //Need a put route - will need idToEdit as well as inputObject
     //!!!!!!!!!!!!!!!
+    API.updateAcid(idToEdit, inputObject)
+    .then(res =>{
+      console.log(res.data);
+    })
+    .catch(err => console.log(err));
 
   }
 
   //Gets name from the popup form
   const handleNameChange = event => {
     event.preventDefault();
-    setIdToEdit(event.target.value);
+    setNameToEdit(event.target.value);
   }
 
   //Gets new pKa from the popup form

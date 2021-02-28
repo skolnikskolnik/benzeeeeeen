@@ -9,5 +9,7 @@ router.route("/")
 //Matches with "/api/acids/:id"
 router.route("/:id")
 .delete(acidController.remove)
+.put(acidController.update)
+
 
 module.exports = router;
