@@ -13,13 +13,17 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
 import API from "../utils/API";
-import Alert from "../components/Alert";
+import log10 from "../lib/log10";
+import getKaFromPka from "../lib/getKaFromPka";
 
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    [theme.breakpoints.down('sm')]: {
+      width: "90%",
+    }
   },
   paper: {
     padding: theme.spacing(2),
@@ -89,8 +93,7 @@ function AcidDatabase() {
       pKa = parseFloat(displayString);
       pKa = pKa.toFixed(4);
       //Calculate Ka from pKa
-      valKa = Math.pow(10, (-1 * pKa));
-      valKa = valKa.toFixed(10);
+      valKa = getKaFromPka(pKa);
 
       insertIntoDB(pKa, valKa);
     } else {
@@ -155,16 +158,12 @@ function AcidDatabase() {
     setAcidName(value);
   }
 
-  //Function for log base 10
-  const log10 = val => {
-    return Math.log(val) / Math.LN10;
-  }
+
 
   return (
     <Container fluid>
       <Grid container spacing={3}>
-        {/* <Display /> */}
-        <Grid item xs={4}>
+        <Grid item lg={4} md={4} sm={12} xs={12}>
           <form className={classes.root} noValidate autoComplete="off">
             <div>
               <Input className={classes.acidName} onChange={handleChange} placeholder="Acid name" inputProps={{ 'aria-label': 'description' }} />
@@ -183,9 +182,8 @@ function AcidDatabase() {
             </Button>
             </Box>
           </form>
-
         </Grid>
-        <Grid item xs={8}>
+        <Grid item item lg={8} md={8} sm={12} xs={12}>
           <Table />
         </Grid>
       </Grid>

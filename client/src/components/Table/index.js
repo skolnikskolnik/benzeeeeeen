@@ -50,7 +50,7 @@ const useStyles = makeStyles({
 export default function CustomizedTables(props) {
   const classes = useStyles();
   const [acidList, setAcidList] = useState([]);
-  const [formDisplay, setFormDisplay] = useState("none");
+  const [formDisplay, setFormDisplay] = useState(false);
   const [idToEdit, setIdToEdit] = useState("");
   const [nameToEdit, setNameToEdit] = useState("");
   const [newPka, setNewPka] = useState("");
@@ -82,14 +82,13 @@ export default function CustomizedTables(props) {
     event.preventDefault();
 
     setIdToEdit(idNum);
-    //Need to bring up a form upon hitting edit
-    setFormDisplay("block");
+    setFormDisplay(true);
   }
 
   //Makes form invisible again if dismiss button is clicked
   const dismissForm = event => {
     event.preventDefault();
-    setFormDisplay("none");
+    setFormDisplay(false);
   }
 
   //Gets the info from the popup to update the database
@@ -108,9 +107,7 @@ export default function CustomizedTables(props) {
       Ka: newKa
     }
 
-
-    //Need a put route - will need idToEdit as well as inputObject
-    //!!!!!!!!!!!!!!!
+    
     API.updateAcid(idToEdit, inputObject)
     .then(res =>{
       console.log(res.data);
@@ -134,12 +131,10 @@ export default function CustomizedTables(props) {
   return (
     <div>
       <PopupForm 
-      handleNewpKa={handleNewpKa}
-      handleNameChange={handleNameChange} 
-      displayItem={formDisplay} 
-      className={classes.popup} 
-      updateFromPopup={updateFromPopup} 
-      dismissForm={dismissForm}/>
+      handleNameChange={handleNameChange}
+      open={formDisplay}
+      handleClose={dismissForm}
+      />
       <TableContainer className={classes.container} component={Paper}>
         <Table className={classes.table} aria-label="customized table">
           <TableHead>

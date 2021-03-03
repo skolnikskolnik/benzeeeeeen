@@ -84,8 +84,8 @@ export default function TextFieldSizes() {
     const classes = useStyles();
     const [acids, setAcids] = useState([]);
     const [acidSelected, setAcidSelected] = useState("HA");
-    const [acidVolume, setAcidVolume] = useState(0);
-    const [baseVolume, setBaseVolume] = useState(0);
+    const [acidVolume, setAcidVolume] = useState(20);
+    const [baseVolume, setBaseVolume] = useState(20);
     const [baseIncrement, setBaseIncrement] = useState(0);
 
     //Pull all acids from the db
@@ -128,6 +128,7 @@ export default function TextFieldSizes() {
     const handleSubmit = event => {
         event.preventDefault();
         console.log("test");
+        //Need acid name, volume acid, base concentration
     }
 
 
@@ -162,7 +163,7 @@ export default function TextFieldSizes() {
                     <h3>{acidSelected} volume and concentration:</h3>
                     <VolumeSlider handleChange={acidVolumeFunction} volToDisplay={acidVolume} acidName={acidSelected} />
                     <br></br>
-                    <TextField label="Base concentration" id="standard-size-small" placeholder="1.00" size="small" />
+                    <TextField label="Acid concentration" id="standard-size-small" placeholder="1.00" size="small" />
                     <span>*10^</span>
                     <TextField label="Power of ten" id="standard-size-small" placeholder="0" size="small" />
                 </div>
