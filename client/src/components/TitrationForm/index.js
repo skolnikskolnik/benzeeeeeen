@@ -87,6 +87,8 @@ export default function TextFieldSizes() {
     const [acidVolume, setAcidVolume] = useState(20);
     const [baseVolume, setBaseVolume] = useState(20);
     const [baseIncrement, setBaseIncrement] = useState(0);
+    const [acidConc, setAcidConc] = useState(0);
+    const [acidConcPow, setAcidConcPow] = useState(0);
 
     //Pull all acids from the db
     useEffect(() => {
@@ -125,10 +127,21 @@ export default function TextFieldSizes() {
         setBaseIncrement(event.target.value);
     }
 
+    //Gets components of acid concentration
+    const handleAcidConc = event => {
+        event.preventDefault();
+        setAcidConc(event.target.value);
+    }
+
+    const handleAcidConcPow = event => {
+        event.preventDefault();
+        setAcidConcPow(event.target.value);
+    }
+
     const handleSubmit = event => {
         event.preventDefault();
         console.log("test");
-        //Need acid name, volume acid, base concentration
+        //Need acid name, volume acid, acid concentration, volume base, base concentration, and increments
     }
 
 
@@ -163,9 +176,9 @@ export default function TextFieldSizes() {
                     <h3>{acidSelected} volume and concentration:</h3>
                     <VolumeSlider handleChange={acidVolumeFunction} volToDisplay={acidVolume} acidName={acidSelected} />
                     <br></br>
-                    <TextField label="Acid concentration" id="standard-size-small" placeholder="1.00" size="small" />
+                    <TextField onChange={handleAcidConc} label="Acid concentration" id="standard-size-small" placeholder="1.00" size="small" />
                     <span>*10^</span>
-                    <TextField label="Power of ten" id="standard-size-small" placeholder="0" size="small" />
+                    <TextField onChange={handleAcidConcPow} label="Power of ten" id="standard-size-small" placeholder="0" size="small" />
                 </div>
             </Box>
             <hr className={classes.line}></hr>

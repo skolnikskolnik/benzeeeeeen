@@ -42,7 +42,7 @@ export default function BasicButtonGroup(props) {
                 <Button className={classes.calculator} onClick={props.handleBtnClick} value="1">1</Button>
                 <Button className={classes.calculator} onClick={props.handleBtnClick} value="2">2</Button>
                 <Button className={classes.calculator} onClick={props.handleBtnClick} value="3">3</Button>
-                <Button className={classes.calculator} onClick={props.handleBtnClick} value="*">*</Button>
+                <Button className={classes.calculator} onClick={props.handleBtnClick} value="*">&lowast;</Button>
             </ButtonGroup>
             <ButtonGroup  size="large" aria-label="outlined primary button group">
                 <Button className={classes.calculator} onClick={props.handleBtnClick} value="0">0</Button>

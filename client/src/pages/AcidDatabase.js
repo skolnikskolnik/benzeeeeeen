@@ -8,7 +8,6 @@ import Table from "../components/Table";
 import Input from '@material-ui/core/Input';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
-import TextField from '@material-ui/core/TextField';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
@@ -32,7 +31,9 @@ const useStyles = makeStyles((theme) => ({
   },
   display: {
     width: "100%",
-    padding: "5px"
+    padding: "5px",
+    borderStyle: "ridge",
+    margin: "5px"
   },
   submit: {
     margin: "10px"
@@ -51,15 +52,18 @@ const useStyles = makeStyles((theme) => ({
 
 function AcidDatabase() {
   const classes = useStyles();
+
   const [acidValue, setAcidValue] = useState("pKa");
   const [acidName, setAcidName] = useState("");
+
   const [displayString, setDisplayString] = useState("");
+
   const [acidList, setAcidList] = useState([]);
 
-  //Loads all acids currently in the db
-  useEffect(() => {
-    // loadAcids()
-  }, []);
+  //Trying a workaround to display the value entered as Ka as a power of ten
+  const [displayNumber, setDisplayNumber] = useState("");
+  const [displayPowerOfTen, setDisplayPowerOfTen] = useState("");
+
 
 
   //Takes data from the calculator and turns it into a displayed string
@@ -70,14 +74,31 @@ function AcidDatabase() {
     if ((currentValue == "0") || (currentValue == "1") || (currentValue == "2") || (currentValue == "3") || (currentValue == "4") || (currentValue == "5") || (currentValue == "6") || (currentValue == "7") || (currentValue == "8") || (currentValue == "9") || (currentValue == "^") || (currentValue == "-") || (currentValue == "*") || (currentValue == ".")) {
       //Need to convert to tex
       setDisplayString(displayString + currentValue);
+      addExponent(displayString + currentValue);
     } else if (currentValue == "Delete") {
       let stringToDisplay = displayString;
       stringToDisplay = stringToDisplay.substring(0, stringToDisplay.length - 1);
       //Need to convert to tex
       setDisplayString(stringToDisplay);
+      addExponent(stringToDisplay);
     } else {
       //Need to convert to tex
       setDisplayString("");
+      addExponent("");
+    }
+
+  }
+
+  //Takes display string and breaks it into two parts to display on screen with exponent
+  const addExponent = string => {
+    if(string.includes("*10^")){
+      let beforeString = string.split("^")[0];
+      let afterString = string.split("^")[1];
+      setDisplayNumber(beforeString);
+      setDisplayPowerOfTen(afterString);
+    } else {
+      setDisplayNumber(string);
+      setDisplayPowerOfTen("")
     }
   }
 
@@ -135,10 +156,10 @@ function AcidDatabase() {
     }
 
     API.addAcidToDB(inputObject)
-    .then(() => {
-      setSuccessOpen(true);
-    })
-    .catch(err => console.log(err));
+      .then(() => {
+        setSuccessOpen(true);
+      })
+      .catch(err => console.log(err));
 
     window.location.reload(true);
   }
@@ -168,7 +189,7 @@ function AcidDatabase() {
             <div>
               <Input className={classes.acidName} onChange={handleChange} placeholder="Acid name" inputProps={{ 'aria-label': 'description' }} />
             </div>
-            <TextField className={classes.display} id="outlined-basic" value={displayString} variant="outlined" />
+            <Box className={classes.display} variant="outlined"> Value: {displayNumber} <sup>{displayPowerOfTen}</sup>  </Box>
             <Calculator
               id="acidpKa"
               handleBtnClick={handleBtnClick} />
