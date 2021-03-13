@@ -12,6 +12,7 @@ import VolumeSlider from "../VolumeSlider";
 import NativeSelect from '@material-ui/core/NativeSelect';
 import InputBase from '@material-ui/core/InputBase';
 import Button from '@material-ui/core/Button';
+import generateXY from '../../lib/generateXY';
 
 //Inline CSS
 const useStyles = makeStyles((theme) => ({
@@ -84,11 +85,14 @@ export default function TextFieldSizes() {
     const classes = useStyles();
     const [acids, setAcids] = useState([]);
     const [acidSelected, setAcidSelected] = useState("HA");
+    const [selectedPka, setSelectedPka] = useState("");
     const [acidVolume, setAcidVolume] = useState(20);
     const [baseVolume, setBaseVolume] = useState(20);
-    const [baseIncrement, setBaseIncrement] = useState(0);
+    const [baseIncrement, setBaseIncrement] = useState("0.1");
     const [acidConc, setAcidConc] = useState(0);
     const [acidConcPow, setAcidConcPow] = useState(0);
+    const [baseConc, setBaseConc] = useState(0);
+    const [baseConcPow, setBaseConcPow] = useState(0);
 
     //Pull all acids from the db
     useEffect(() => {
@@ -100,13 +104,23 @@ export default function TextFieldSizes() {
         API.getAllAcids()
             .then(res => {
                 setAcids(res.data);
+                //Should set default state of acid to the LAST acid in the db
+                setAcidSelected(res.data[res.data.length-1].name);
+                setSelectedPka(res.data[res.data.length-1].pKa)
             });
     }
 
     //Gets acid from radio 
     const selectAcid = event => {
-        event.preventDefault();
+
         setAcidSelected(event.target.id);
+        
+        //Get the pKa 
+        for(let i=0; i<acids.length; i++){
+            if(acids[i].name == event.target.id){
+                setSelectedPka(acids[i].pKa);
+            }  
+        }
     }
 
     //gets quantity from acid volume slider
@@ -133,15 +147,35 @@ export default function TextFieldSizes() {
         setAcidConc(event.target.value);
     }
 
+    //Gets power of ten of acid concentration
     const handleAcidConcPow = event => {
         event.preventDefault();
         setAcidConcPow(event.target.value);
     }
 
+    //Gets reg number for base conc
+    const handleBaseConc = event => {
+        event.preventDefault();
+        setBaseConc(event.target.value);
+    }
+
+    //Gets power of ten for base conc
+    const handleBaseConcPow = event => {
+        event.preventDefault();
+        setBaseConcPow(event.target.value);
+    }
+
+
     const handleSubmit = event => {
         event.preventDefault();
-        console.log("test");
-        //Need acid name, volume acid, acid concentration, volume base, base concentration, and increments
+
+        //Need acid name, volume acid, acid concentration, volume base, base concentration, and increments, final vol base
+        let acidConcNew = acidConc*Math.pow(10, acidConcPow); 
+        let baseConcNew = baseConc*Math.pow(10, baseConcPow);
+        
+
+        let xyCoordinates = generateXY(selectedPka, acidConcNew, baseConcNew, baseIncrement, baseVolume, acidVolume);
+        // console.log(xyCoordinates);
     }
 
 
@@ -157,7 +191,7 @@ export default function TextFieldSizes() {
                         >
                             {acids.map((item, index) => {
                                 return (
-                                    <MenuItem key={index} onClick={selectAcid} value={item.name} id={item.name}>{item.name}</MenuItem>
+                                    <MenuItem key={index} name={item.pKa} onClick={selectAcid} id={item.name}>{item.name}</MenuItem>
                                 );
                             })}
                         </Select>
@@ -187,9 +221,9 @@ export default function TextFieldSizes() {
                     <h3>Hydroxide volume, concentration, and frequency:</h3>
                     <VolumeSlider handleChange={baseVolumeFunction} volToDisplay={baseVolume} acidName="hydroxide" />
                     <br></br>
-                    <TextField label="Base concentration" id="standard-size-small" placeholder="1.00" size="small" />
+                    <TextField onChange={handleBaseConc} label="Base concentration" id="standard-size-small" placeholder="1.00" size="small" />
                     <span>*10^</span>
-                    <TextField label="Power of ten" id="standard-size-small" placeholder="0" size="small" />
+                    <TextField onChange={handleBaseConcPow} label="Power of ten" id="standard-size-small" placeholder="0" size="small" />
                     <br></br>
                     <h4>Increments for measuring pH:</h4>
                     <NativeSelect
