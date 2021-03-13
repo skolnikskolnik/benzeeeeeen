@@ -94,9 +94,11 @@ export default function CustomizedTables(props) {
   //Gets the info from the popup to update the database
   const updateFromPopup = event => {
     event.preventDefault();
+
     //Name is idToEdit and pKa is newPka - both custom hooks
     //Need to convert pKa to Ka
-    let pKa = parseFloat(newPka);
+
+    let pKa = parseInt(newPka);
     pKa = pKa.toFixed(4);
     let newKa = Math.pow(10, (-1*pKa));
     newKa = newKa.toFixed(6);
@@ -111,6 +113,8 @@ export default function CustomizedTables(props) {
     API.updateAcid(idToEdit, inputObject)
     .then(res =>{
       console.log(res.data);
+      //Want to close the form
+      setFormDisplay(false);
     })
     .catch(err => console.log(err));
 
@@ -122,7 +126,7 @@ export default function CustomizedTables(props) {
     setNameToEdit(event.target.value);
   }
 
-  //Gets new pKa from the popup form
+  // //Gets new pKa from the popup form
   const handleNewpKa = event => {
     event.preventDefault();
     setNewPka(event.target.value);
@@ -132,8 +136,10 @@ export default function CustomizedTables(props) {
     <div>
       <PopupForm 
       handleNameChange={handleNameChange}
+      updateFromPopup={updateFromPopup}
       open={formDisplay}
       handleClose={dismissForm}
+      handleNewpKa={handleNewpKa}
       />
       <TableContainer className={classes.container} component={Paper}>
         <Table className={classes.table} aria-label="customized table">

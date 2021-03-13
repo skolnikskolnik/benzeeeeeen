@@ -28,6 +28,7 @@ export default function FormDialog(props) {
                         fullWidth
                     />
                     <TextField
+                        onChange={props.handleNewpKa}
                         autoFocus
                         margin="dense"
                         id="pKa"
@@ -40,7 +41,9 @@ export default function FormDialog(props) {
                     <Button onClick={props.handleClose} color="primary">
                         Cancel
           </Button>
-                    <Button color="primary">
+                    <Button 
+                    onClick={props.updateFromPopup}
+                    color="primary">
                         Submit
           </Button>
                 </DialogActions>
