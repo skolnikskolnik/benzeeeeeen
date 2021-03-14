@@ -13,6 +13,7 @@ import NativeSelect from '@material-ui/core/NativeSelect';
 import InputBase from '@material-ui/core/InputBase';
 import Button from '@material-ui/core/Button';
 import generateXY from '../../lib/generateXY';
+import ScatterPlot from '../ScatterPlot';
 
 //Inline CSS
 const useStyles = makeStyles((theme) => ({
@@ -93,6 +94,7 @@ export default function TextFieldSizes() {
     const [acidConcPow, setAcidConcPow] = useState(0);
     const [baseConc, setBaseConc] = useState(0);
     const [baseConcPow, setBaseConcPow] = useState(0);
+    const [pHCoordinates, setPHcoordinates] = useState([]);
 
     //Pull all acids from the db
     useEffect(() => {
@@ -175,7 +177,9 @@ export default function TextFieldSizes() {
         
 
         let xyCoordinates = generateXY(selectedPka, acidConcNew, baseConcNew, baseIncrement, baseVolume, acidVolume);
-        // console.log(xyCoordinates);
+        setPHcoordinates(xyCoordinates);
+        //We want to take these xy coordinates and use them to generate data in a chart that is only visible when there is data
+        
     }
 
 
@@ -245,6 +249,8 @@ export default function TextFieldSizes() {
             <Button onClick={handleSubmit} className={classes.submit} variant="contained" color="secondary">
                 Submit
             </Button>
+            <ScatterPlot xyCoordinates={pHCoordinates} />
         </form>
+
     );
 }

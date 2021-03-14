@@ -42,7 +42,6 @@ const generateXY = (pKa, acidConc, ohConc, baseIncrement, baseFinalVol, acidInit
         if (molesAcid > molesBaseAdded) {
             let pHbufferingRegion = pKa + log10(molesBaseAdded / molesHAremaining);
             pHbufferingRegion = parseFloat(pHbufferingRegion);
-         
 
             let bufferingCoordinate = {
                 x: volumeBaseAdded,
@@ -89,7 +88,6 @@ const generateXY = (pKa, acidConc, ohConc, baseIncrement, baseFinalVol, acidInit
         }
     }
 
-    console.log(xyCoordinates);
     return xyCoordinates;
 }
 
