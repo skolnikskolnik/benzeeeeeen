@@ -13,8 +13,6 @@ export default class ScatterPlot extends Component {
     }
 
     displayChart(){
-        // this.setState({coordinates: this.props.xyCoordinates});
-        // console.log(this.props.xyCoordinates);
 
         const myChartRef = this.chartRef.current.getContext("2d");
 
