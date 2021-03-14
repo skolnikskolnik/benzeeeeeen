@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import Chart from "chart.js";
 
+
 export default class ScatterPlot extends Component {
+    
     state = {
         coordinates: this.props.xyCoordinates
     }
@@ -13,18 +15,22 @@ export default class ScatterPlot extends Component {
     }
 
     displayChart(){
-
+        console.log(this.state.coordinates);
         const myChartRef = this.chartRef.current.getContext("2d");
-
+        
         new Chart(myChartRef, {
             type: 'scatter',
             data: {
                 datasets: [{
                     label: 'pH values',
-                    data: this.state.coordinates
+                    data: this.state.coordinates,
+                    borderColor: "#363A59"
                 }]
             },
             options: {
+                legend: {
+                    display: false
+                },
                 scales: {
                     xAxes: [{
                         type: 'linear',
@@ -51,11 +57,7 @@ export default class ScatterPlot extends Component {
         }
     }
 
-    // componentDidUpdate(prevState){
-    //     if(prevState.xyCoordinates !== this.state.xyCoordinates){
-    //         this.displayChart();
-    //     }
-    // }
+
 
     render() {
 

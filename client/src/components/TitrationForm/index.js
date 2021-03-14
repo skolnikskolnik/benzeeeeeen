@@ -178,8 +178,8 @@ export default function TextFieldSizes() {
 
         let xyCoordinates = generateXY(selectedPka, acidConcNew, baseConcNew, baseIncrement, baseVolume, acidVolume);
         setPHcoordinates(xyCoordinates);
-        //We want to take these xy coordinates and use them to generate data in a chart that is only visible when there is data
         
+        //We want to take these xy coordinates and use them to generate data in a chart that is only visible when there is data
     }
 
 
@@ -249,7 +249,10 @@ export default function TextFieldSizes() {
             <Button onClick={handleSubmit} className={classes.submit} variant="contained" color="secondary">
                 Submit
             </Button>
+            <Box>
+            <h3>Titration curve for {acidSelected}</h3>
             <ScatterPlot xyCoordinates={pHCoordinates} />
+            </Box>
         </form>
 
     );

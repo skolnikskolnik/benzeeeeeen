@@ -43,6 +43,9 @@ const generateXY = (pKa, acidConc, ohConc, baseIncrement, baseFinalVol, acidInit
             let pHbufferingRegion = pKa + log10(molesBaseAdded / molesHAremaining);
             pHbufferingRegion = parseFloat(pHbufferingRegion);
 
+            if(pHbufferingRegion < initialPh){
+                pHbufferingRegion = initialPh;
+            }
             let bufferingCoordinate = {
                 x: volumeBaseAdded,
                 y: pHbufferingRegion
@@ -54,6 +57,8 @@ const generateXY = (pKa, acidConc, ohConc, baseIncrement, baseFinalVol, acidInit
             let Kb = (Math.pow(10, -14))/valKa;
             let hydroxideConc = quadForm(1, Kb, -1*Kb*acidConc);
             let pHequivPoint = 14 + log10(hydroxideConc);
+
+            
             let equivPointCoordinate = {
                 x: volumeBaseAdded,
                 y: pHequivPoint
@@ -87,7 +92,6 @@ const generateXY = (pKa, acidConc, ohConc, baseIncrement, baseFinalVol, acidInit
             
         }
     }
-
     return xyCoordinates;
 }
 

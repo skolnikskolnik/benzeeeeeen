@@ -11,7 +11,13 @@
 5. [Questions](#Questions)
 
 ## Description: 
-This is an in-progress application for chemistry teachers, by chemistry teachers. 
+This is an in-progress application for chemistry teachers, by chemistry teachers. As of right now it builds a database of weak acids and can use that database to generate theoretical titration curve data for weak acid/strong base titrations. More and more functionality will be added to benzeeeeeen to make this a one stop shop for chemsitry teachers looking to save time. 
+
+Users can add, remove, and edit acids in the database:
+![user entering input](./images/aciddb.PNG)
+
+Users then enter experiment conditions and use this to generate titration curve data:
+![user entering input](./images/titrationcurve.PNG)
 
 ## Installation instructions: 
 Users should npm install before running the program.
