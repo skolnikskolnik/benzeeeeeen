@@ -19,6 +19,8 @@ Users can add, remove, and edit acids in the database:
 Users then enter experiment conditions and use this to generate titration curve data:
 ![user entering input](./images/titrationcurve.PNG)
 
+Here is the [link](https://benzeeeeeen.herokuapp.com/) to the deployed application. 
+
 ## Installation instructions: 
 Users should npm install before running the program.
 
