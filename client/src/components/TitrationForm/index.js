@@ -95,6 +95,7 @@ export default function TextFieldSizes() {
     const [baseConc, setBaseConc] = useState(0);
     const [baseConcPow, setBaseConcPow] = useState(0);
     const [pHCoordinates, setPHcoordinates] = useState([]);
+    const [scatPlotVis, setScatPlotVis] = useState(false);
 
     //Pull all acids from the db
     useEffect(() => {
@@ -107,8 +108,8 @@ export default function TextFieldSizes() {
             .then(res => {
                 setAcids(res.data);
                 //Should set default state of acid to the LAST acid in the db
-                setAcidSelected(res.data[res.data.length-1].name);
-                setSelectedPka(res.data[res.data.length-1].pKa)
+                setAcidSelected(res.data[res.data.length - 1].name);
+                setSelectedPka(res.data[res.data.length - 1].pKa)
             });
     }
 
@@ -116,12 +117,12 @@ export default function TextFieldSizes() {
     const selectAcid = event => {
 
         setAcidSelected(event.target.id);
-        
+
         //Get the pKa 
-        for(let i=0; i<acids.length; i++){
-            if(acids[i].name == event.target.id){
+        for (let i = 0; i < acids.length; i++) {
+            if (acids[i].name == event.target.id) {
                 setSelectedPka(acids[i].pKa);
-            }  
+            }
         }
     }
 
@@ -172,13 +173,13 @@ export default function TextFieldSizes() {
         event.preventDefault();
 
         //Need acid name, volume acid, acid concentration, volume base, base concentration, and increments, final vol base
-        let acidConcNew = acidConc*Math.pow(10, acidConcPow); 
-        let baseConcNew = baseConc*Math.pow(10, baseConcPow);
-        
+        let acidConcNew = acidConc * Math.pow(10, acidConcPow);
+        let baseConcNew = baseConc * Math.pow(10, baseConcPow);
+
 
         let xyCoordinates = generateXY(selectedPka, acidConcNew, baseConcNew, baseIncrement, baseVolume, acidVolume);
         setPHcoordinates(xyCoordinates);
-        
+        setScatPlotVis(true);
         //We want to take these xy coordinates and use them to generate data in a chart that is only visible when there is data
     }
 
@@ -250,8 +251,15 @@ export default function TextFieldSizes() {
                 Submit
             </Button>
             <Box>
-            <h3>Titration curve for {acidSelected}</h3>
-            <ScatterPlot xyCoordinates={pHCoordinates} />
+                {scatPlotVis ?
+                    <h3>Titration curve for {acidSelected}</h3>
+                    : null}
+                {scatPlotVis ?
+                    <ScatterPlot
+                        xyCoordinates={pHCoordinates}
+                    />
+                    : null
+                }
             </Box>
         </form>
 
