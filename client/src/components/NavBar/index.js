@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -6,6 +6,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -13,6 +14,8 @@ const useStyles = makeStyles((theme) => ({
   },
   menuButton: {
     marginRight: theme.spacing(2),
+    color: "white",
+    fontSize: "20px"
   },
   title: {
     flexGrow: 1,
@@ -77,7 +80,8 @@ export default function NavBar() {
 
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
+  // const open = Boolean(anchorEl);
+  const [open, setOpen] = useState(false);
 
 
   const handleMenu = (event) => {
@@ -86,6 +90,7 @@ export default function NavBar() {
 
   const handleClose = () => {
     setAnchorEl(null);
+    setOpen(false);
   };
 
   const navHome = () => {
@@ -103,6 +108,10 @@ export default function NavBar() {
     window.location.href = "/titrationcurve";
   }
 
+  const openMenu = () => {
+    setOpen(true);
+  }
+
 
 
   return (
@@ -116,7 +125,12 @@ export default function NavBar() {
             aria-label="menu"
             onClick={handleMenu}>
             <MenuIcon />
+            <Button
+            className={classes.menuButton}
+            onClick={openMenu}
+            >
             Benzeeeeeen
+            </Button>
             <Menu
               id="menu-appbar"
               anchorEl={anchorEl}
@@ -132,6 +146,10 @@ export default function NavBar() {
               open={open}
               onClose={handleClose}
             > 
+                <MenuItem 
+                onClick={handleClose} >
+                Close menu
+                </MenuItem>
                           <MenuItem onClick={navHome} >
                 Home
                 </MenuItem>
@@ -144,7 +162,6 @@ export default function NavBar() {
                 </MenuItem>
             </Menu>
           </IconButton>
-        
         </Toolbar>
       </AppBar>
 

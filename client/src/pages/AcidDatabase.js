@@ -9,6 +9,7 @@ import Input from '@material-ui/core/Input';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import RadioGroup from '@material-ui/core/RadioGroup';
+import Paper from '@material-ui/core/Paper';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
 import API from "../utils/API";
@@ -45,6 +46,12 @@ const useStyles = makeStyles((theme) => ({
   acidInfo: {
     width: "45%",
     margin: "10px"
+  },
+  paper_main: {
+    padding: theme.spacing(2),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+    backgroundColor: "#CCCFE0",
   }
 }));
 
@@ -184,6 +191,11 @@ function AcidDatabase() {
   return (
     <Container fluid>
       <Grid container spacing={3}>
+      <Grid item xs={12}>
+          <Paper className={classes.paper_main}>
+            <h1>Benzeeeeeen</h1>
+          </Paper>
+        </Grid>
         <Grid item lg={4} md={4} sm={12} xs={12}>
           <form className={classes.root} noValidate autoComplete="off">
             <div>
