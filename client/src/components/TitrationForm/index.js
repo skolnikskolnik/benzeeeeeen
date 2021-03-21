@@ -14,6 +14,7 @@ import InputBase from '@material-ui/core/InputBase';
 import Button from '@material-ui/core/Button';
 import generateXY from '../../lib/generateXY';
 import ScatterPlot from '../ScatterPlot';
+import ExcelOutput from "../ExcelOutput";
 
 //Inline CSS
 const useStyles = makeStyles((theme) => ({
@@ -42,6 +43,9 @@ const useStyles = makeStyles((theme) => ({
     submit: {
         margins: "15px",
         left: "10px"
+    },
+    genExcel: {
+        float: "left"
     }
 }));
 
@@ -168,7 +172,7 @@ export default function TextFieldSizes() {
         setBaseConcPow(event.target.value);
     }
 
-
+    //When user clicks submit, this generates the xy coordinates and sets the visibility of the chart to true 
     const handleSubmit = event => {
         event.preventDefault();
 
@@ -180,7 +184,17 @@ export default function TextFieldSizes() {
         let xyCoordinates = generateXY(selectedPka, acidConcNew, baseConcNew, baseIncrement, baseVolume, acidVolume);
         setPHcoordinates(xyCoordinates);
         setScatPlotVis(true);
-        //We want to take these xy coordinates and use them to generate data in a chart that is only visible when there is data
+        
+        
+    }
+
+    const exportCoordinatesToFile = event => {
+        event.preventDefault();
+
+        // exportCoordinates(pHCoordinates);
+
+
+        
     }
 
 
@@ -250,6 +264,11 @@ export default function TextFieldSizes() {
             <Button onClick={handleSubmit} className={classes.submit} variant="contained" color="secondary">
                 Submit
             </Button>
+            {scatPlotVis ?
+                <ExcelOutput
+                coordinates={pHCoordinates}
+                /> 
+                :null}  
             <Box>
                 {scatPlotVis ?
                     <h3>Titration curve for {acidSelected}</h3>
