@@ -2,6 +2,9 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { makeStyles } from '@material-ui/core/styles';
+import CloseIcon from '@material-ui/icons/Close';
+import ExpandLessSharpIcon from '@material-ui/icons/ExpandLessSharp';
+import RemoveSharpIcon from '@material-ui/icons/RemoveSharp';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -30,19 +33,19 @@ export default function BasicButtonGroup(props) {
                 <Button className={classes.calculator} onClick={props.handleBtnClick} value="7">7</Button>
                 <Button className={classes.calculator} onClick={props.handleBtnClick} value="8">8</Button>
                 <Button className={classes.calculator} onClick={props.handleBtnClick} value="9">9</Button>
-                <Button className={classes.calculator} onClick={props.handleBtnClick} value="^">^</Button>
+                <Button className={classes.calculator} onClick={props.handleBtnClick} value="^"><ExpandLessSharpIcon /></Button>
             </ButtonGroup>
             <ButtonGroup  size="large" aria-label="outlined primary button group">
                 <Button className={classes.calculator} onClick={props.handleBtnClick} value="4">4</Button>
                 <Button className={classes.calculator} onClick={props.handleBtnClick} value="5">5</Button>
                 <Button className={classes.calculator} onClick={props.handleBtnClick} value="6">6</Button>
-                <Button className={classes.calculator} onClick={props.handleBtnClick} value="-">-</Button>
+                <Button className={classes.calculator} onClick={props.handleBtnClick} value="-"><RemoveSharpIcon /></Button>
             </ButtonGroup>
             <ButtonGroup  size="large" aria-label="outlined primary button group">
                 <Button className={classes.calculator} onClick={props.handleBtnClick} value="1">1</Button>
                 <Button className={classes.calculator} onClick={props.handleBtnClick} value="2">2</Button>
                 <Button className={classes.calculator} onClick={props.handleBtnClick} value="3">3</Button>
-                <Button className={classes.calculator} onClick={props.handleBtnClick} value="*">&lowast;</Button>
+                <Button className={classes.calculator} onClick={props.handleBtnClick} value="*"><CloseIcon /></Button>
             </ButtonGroup>
             <ButtonGroup  size="large" aria-label="outlined primary button group">
                 <Button className={classes.calculator} onClick={props.handleBtnClick} value="0">0</Button>

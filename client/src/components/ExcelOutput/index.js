@@ -1,7 +1,6 @@
 import React from "react";
 import ReactExport from "react-data-export";
 import Button from '@material-ui/core/Button';
-import { makeStyles } from '@material-ui/core/styles';
 
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
@@ -11,8 +10,6 @@ const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
 const handleClick = event => {
     event.preventDefault();
 }
-
-
 
 
 export default class Download extends React.Component {
@@ -29,7 +26,7 @@ export default class Download extends React.Component {
             color="primary"
             style={{ float: "right" }}
             >
-                Download Excel file
+                Download .csv file
                 </Button>}>
                 <ExcelSheet data={this.state.coordinates} name="Employees">
                     <ExcelColumn label="pH" value="x"/>

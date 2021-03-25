@@ -108,6 +108,11 @@ export default function NavBar() {
     window.location.href = "/titrationcurve";
   }
 
+  const calcNav = () => {
+    setAnchorEl(null);
+    window.location.href = "/calculator";
+  }
+
   const openMenu = () => {
     setOpen(true);
   }
@@ -160,6 +165,9 @@ export default function NavBar() {
                 <MenuItem onClick={titrationNav}>
                   Titration Curve
                 </MenuItem>
+                {/* <MenuItem onClick={calcNav}>
+                  Calculators home
+                </MenuItem> */}
             </Menu>
           </IconButton>
         </Toolbar>
