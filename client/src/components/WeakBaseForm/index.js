@@ -2,19 +2,15 @@ import React, { useEffect, useState } from "react";
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import Link from '@material-ui/core/Link';
 import Box from '@material-ui/core/Box';
-import API from "../../utils/API";
 import VolumeSlider from "../VolumeSlider";
 import NativeSelect from '@material-ui/core/NativeSelect';
 import InputBase from '@material-ui/core/InputBase';
 import Button from '@material-ui/core/Button';
-import generateXY from '../../lib/generateXY';
 import ScatterPlot from '../ScatterPlot';
 import ExcelOutput from "../ExcelOutput";
+import generateXYstrong from "../../lib/generateXYstrong";
 
 //Inline CSS
 const useStyles = makeStyles((theme) => ({
@@ -88,9 +84,7 @@ const BootstrapInput = withStyles((theme) => ({
 
 export default function TextFieldSizes() {
     const classes = useStyles();
-    const [acids, setAcids] = useState([]);
-    const [acidSelected, setAcidSelected] = useState("HA");
-    const [selectedPka, setSelectedPka] = useState("");
+    const [acidSelected] = useState("HA");
     const [acidVolume, setAcidVolume] = useState(20);
     const [baseVolume, setBaseVolume] = useState(20);
     const [baseIncrement, setBaseIncrement] = useState("0.1");
@@ -103,32 +97,10 @@ export default function TextFieldSizes() {
 
     //Pull all acids from the db
     useEffect(() => {
-        loadAcids()
+
     }, []);
 
-    //Gets all the acids from the database
-    const loadAcids = () => {
-        API.getAllAcids()
-            .then(res => {
-                setAcids(res.data);
-                //Should set default state of acid to the LAST acid in the db
-                setAcidSelected(res.data[res.data.length - 1].name);
-                setSelectedPka(res.data[res.data.length - 1].pKa)
-            });
-    }
 
-    //Gets acid from radio 
-    const selectAcid = event => {
-
-        setAcidSelected(event.target.id);
-
-        //Get the pKa 
-        for (let i = 0; i < acids.length; i++) {
-            if (acids[i].name == event.target.id) {
-                setSelectedPka(acids[i].pKa);
-            }
-        }
-    }
 
     //gets quantity from acid volume slider
     const acidVolumeFunction = (event, value) => {
@@ -180,60 +152,38 @@ export default function TextFieldSizes() {
         let acidConcNew = acidConc * Math.pow(10, acidConcPow);
         let baseConcNew = baseConc * Math.pow(10, baseConcPow);
 
-
-        let xyCoordinates = generateXY(selectedPka, acidConcNew, baseConcNew, baseIncrement, baseVolume, acidVolume);
+        let xyCoordinates = generateXYstrong(acidConcNew, acidVolume, baseConcNew, baseVolume, baseIncrement);
+        // let xyCoordinates = generateXY(selectedPka, acidConcNew, baseConcNew, baseIncrement, baseVolume, acidVolume);
         setPHcoordinates(xyCoordinates);
         setScatPlotVis(true);
         
         
     }
 
-    const exportCoordinatesToFile = event => {
-        event.preventDefault();
-
-        // exportCoordinates(pHCoordinates);
-
-
-        
-    }
 
 
     return (
         <form className={classes.root} noValidate autoComplete="off">
             <Box className={classes.box}>
-                <h3>This form is for weak-acid/strong base titrations. </h3>
-                <h4>Want to see strong-acid/strong-base? Click  
+                <h3>This form is for strong-acid/weak base titrations. 
+               </h3>
+               <h4>Want to see weak-acid/strong-base? Click  
+                <Link href="/titrationcurve">
+                &nbsp; here. 
+              </Link></h4>
+              <h4>Want to see strong-acid/strong-base? Click  
                 <Link href="/strongacidstrongbase">
-                &nbsp; here. </Link></h4>
-                {/* <h4>Want to see strong-acid/weak-base? Click  
-                <Link href="/weakbasestrongacid">
-                &nbsp; here. </Link></h4> */}
+                &nbsp; here. 
+              </Link></h4>
                 <div className={classes.inLine}>
                     <FormControl className={classes.formControl}>
-                        <Select
-                            displayEmpty
-                            className={classes.selectEmpty}
-                            inputProps={{ 'aria-label': 'Without label' }}
-                        >
-                            {acids.map((item, index) => {
-                                return (
-                                    <MenuItem key={index} name={item.pKa} onClick={selectAcid} id={item.name}>{item.name}</MenuItem>
-                                );
-                            })}
-                        </Select>
-                        <FormHelperText>Select your acid</FormHelperText>
-                        <span>Not seeing the acid you want? &nbsp;
-                    <Link href="/aciddatabase/">
-                                Click here to edit the database.
-                    </Link>
-                        </span>
                     </FormControl>
                 </div>
             </Box>
             <hr className={classes.line}></hr>
             <Box className={classes.box}>
                 <div>
-                    <h3>{acidSelected} volume and concentration:</h3>
+                    <h3>H<sup>+</sup> volume and concentration:</h3>
                     <VolumeSlider handleChange={acidVolumeFunction} volToDisplay={acidVolume} acidName={acidSelected} />
                     <br></br>
                     <TextField onChange={handleAcidConc} label="Acid concentration" id="standard-size-small" placeholder="1.00" size="small" />

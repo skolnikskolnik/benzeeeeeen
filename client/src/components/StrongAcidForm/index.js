@@ -156,8 +156,8 @@ export default function TextFieldSizes() {
         // let xyCoordinates = generateXY(selectedPka, acidConcNew, baseConcNew, baseIncrement, baseVolume, acidVolume);
         setPHcoordinates(xyCoordinates);
         setScatPlotVis(true);
-        
-        
+
+
     }
 
 
@@ -165,11 +165,14 @@ export default function TextFieldSizes() {
     return (
         <form className={classes.root} noValidate autoComplete="off">
             <Box className={classes.box}>
-                <h3>This form is for strong-acid/strong base titrations. Want to see weak-acid/strong-base? Click  
+                <h3>This form is for strong-acid/strong base titrations.</h3>
+                <h4>Want to see weak-acid/strong-base? Click
                 <Link href="/titrationcurve">
-                &nbsp; here.
-              </Link>
-               </h3>
+                            &nbsp; here.
+              </Link></h4>
+                    <h4>Want to see strong-acid/weak-base? Click
+                <Link href="/weakbasestrongacid">
+                            &nbsp; here. </Link></h4>
                 <div className={classes.inLine}>
                     <FormControl className={classes.formControl}>
                     </FormControl>
@@ -218,9 +221,9 @@ export default function TextFieldSizes() {
             </Button>
             {scatPlotVis ?
                 <ExcelOutput
-                coordinates={pHCoordinates}
-                /> 
-                :null}  
+                    coordinates={pHCoordinates}
+                />
+                : null}
             <Box>
                 {scatPlotVis ?
                     <h3>Titration curve for {acidSelected}</h3>

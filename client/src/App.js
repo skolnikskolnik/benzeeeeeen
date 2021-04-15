@@ -5,6 +5,7 @@ import AcidDatabase from "./pages/AcidDatabase";
 import TitrationCurve from "./pages/TitrationCurve";
 import Calculator from "./pages/Calculator";
 import StrongAcidStrongBase from "./pages/StrongAcidStrongBase";
+import WeakBaseStrongAcid from "./pages/WeakBaseStrongAcid";
 
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
@@ -28,6 +29,9 @@ function App() {
         </Route>
               <Route exact path="/strongacidstrongbase">
           <StrongAcidStrongBase />
+        </Route>
+              <Route exact path="/weakbasestrongacid">
+          <WeakBaseStrongAcid />
         </Route>
       </Switch>
     </div>
