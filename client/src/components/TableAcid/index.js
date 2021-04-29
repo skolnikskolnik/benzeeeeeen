@@ -98,7 +98,7 @@ export default function CustomizedTables(props) {
     //Name is idToEdit and pKa is newPka - both custom hooks
     //Need to convert pKa to Ka
 
-    let pKa = parseInt(newPka);
+    let pKa = parseFloat(newPka);
     pKa = pKa.toFixed(4);
     let newKa = Math.pow(10, (-1*pKa));
     newKa = newKa.toFixed(6);

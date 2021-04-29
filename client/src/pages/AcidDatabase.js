@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Container } from "../components/Grid";
 import { makeStyles } from '@material-ui/core/styles';
 import "../styles/homepage.css";
 import Grid from '@material-ui/core/Grid';
 import Calculator from "../components/Calculator";
-import Table from "../components/Table";
-import TableBase from "../components/TableBase";
+import TableAcid from "../components/TableAcid";
 import Input from '@material-ui/core/Input';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
@@ -16,7 +15,7 @@ import Radio from '@material-ui/core/Radio';
 import API from "../utils/API";
 import log10 from "../lib/log10";
 import getKaFromPka from "../lib/getKaFromPka";
-import Switch from '@material-ui/core/Switch';
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -64,12 +63,9 @@ function AcidDatabase() {
 
   const [acidValue, setAcidValue] = useState("pKa");
   const [acidName, setAcidName] = useState("");
-  const [baseValue, setBaseValue] = useState("pKb");
-  const [baseName, setBaseName] = useState("");
 
   const [displayString, setDisplayString] = useState("");
 
-  const [showingAcid, setShowingAcid] = useState(true);
 
   //Trying a workaround to display the value entered as Ka as a power of ten
   const [displayNumber, setDisplayNumber] = useState("");
@@ -117,7 +113,6 @@ function AcidDatabase() {
   const generateAcidData = event => {
     event.preventDefault();
 
-    if (showingAcid) {
       //Need to get the values from the inputs
       //Starting with the radio dial
       let pKa = 0;
@@ -156,51 +151,7 @@ function AcidDatabase() {
 
           insertIntoDB(pKa, valKa);
         }
-      }
-    } else {
-      //Do the same thing but with a base
-      //Need to get the values from the inputs
-    //Starting with the radio dial
-    let pKb = 0;
-    let valKb = 0;
-
-    if (baseValue == "pKb") {
-      pKb = parseFloat(displayString);
-      pKb = pKb.toFixed(4);
-      //Calculate Ka from pKa
-      valKb = getKaFromPka(pKb);
-
-      insertIntoDBBase(pKb, valKb);
-    } else {
-      valKb = displayString;
-      let valKbSplit = valKb.split("*10^-");
-
-      //This will have two elements if entered in sci notation and one if entered in standard notation
-      if (valKbSplit.length == 1) {
-        valKb = parseFloat(valKb);
-        valKb = valKb.toFixed(10);
-        pKa = -1 * log10(valKa);
-        pKb = pKb.toFixed(4);
-
-        insertIntoDBBase(pKb, valKb);
-        //If it is entered in scientific notation
-      } else if (valKbSplit.length == 2) {
-        let regNumKb = valKbSplit[0];
-        regNumKb = parseFloat(regNumKb);
-        let powerOfTen = valKbSplit[1];
-        powerOfTen = parseFloat(powerOfTen);
-
-        valKb = regNumKb * Math.pow(10, -1 * powerOfTen);
-        valKb = valKb.toFixed(10);
-        pKb = -1 * log10(valKb);
-        pKb = pKb.toFixed(4);
-
-        insertIntoDBBase(pKb, valKb);
-      }
     }
-    }
-
-
   }
 
   //Adds an acid to the db from the info given
@@ -220,22 +171,7 @@ function AcidDatabase() {
     window.location.reload(true);
   }
 
-  //Adds a base to the db from the info given
-  const insertIntoDBBase = (pKb, Kb) => {
-    let inputObject = {
-      name: baseName,
-      pKb: pKb,
-      Kb, Kb
-    }
 
-    API.addBaseToDB(inputObject)
-      .then(() => {
-        setSuccessOpen(true);
-      })
-      .catch(err => console.log(err));
-
-    window.location.reload(true);
-  }
 
   //Toggles between pKa and Ka
   const manageRadio = event => {
@@ -245,28 +181,12 @@ function AcidDatabase() {
 
   }
 
-  //Changes the mode from acid to base and vice versa
-  const switchAcidBase = event => {
-    event.preventDefault();
-
-    if (showingAcid) {
-      setShowingAcid(false);
-    } else {
-      setShowingAcid(true);
-    }
-
-  }
-
   //Gets acid name
   const handleChange = event => {
     event.preventDefault();
     let { value } = event.target;
-
-    if (showingAcid) {
       setAcidName(value);
-    } else {
-      setBaseName(value);
-    }
+
 
   }
 
@@ -292,7 +212,7 @@ function AcidDatabase() {
               handleBtnClick={handleBtnClick} />
             <RadioGroup aria-label="pKaorKa" name="pKaorKa" value={acidValue}>
                 <FormControlLabel onChange={manageRadio} value="pKa" control={<Radio />} label="pKa" /> 
-                <FormControlLabel onChange={manageRadio} value="Ka" control={<Radio />} label="pKb" />
+                <FormControlLabel onChange={manageRadio} value="Ka" control={<Radio />} label="Ka" />
             </RadioGroup>
             <Box textAlign='center'>
               <Button className={classes.submit} variant="contained" color="secondary" onClick={generateAcidData}>
@@ -302,7 +222,7 @@ function AcidDatabase() {
           </form>
         </Grid>
         <Grid item item lg={8} md={8} sm={12} xs={12}>
-          <Table />
+          <TableAcid />
         </Grid>
       </Grid>
     </Container >

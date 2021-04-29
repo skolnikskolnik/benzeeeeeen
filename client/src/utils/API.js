@@ -23,7 +23,7 @@ export default {
     },
     //Removes a base from the database
     removeBase: function (id) {
-        return axios.delete("/api/base/" + id);
+        return axios.delete("/api/bases/" + id);
     },
     //Updates Ka or pKa value or name
     updateAcid: function (id, dbInput) {

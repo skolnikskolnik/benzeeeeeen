@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -23,57 +23,57 @@ const useStyles = makeStyles((theme) => ({
   navBar: {
     backgroundColor: "#363A59"
   },
-    grow: {
-  flexGrow: 1,
-}, search: {
-  position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: fade(theme.palette.common.white, 0.15),
-  '&:hover': {
-    backgroundColor: fade(theme.palette.common.white, 0.25),
+  grow: {
+    flexGrow: 1,
+  }, search: {
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: fade(theme.palette.common.white, 0.15),
+    '&:hover': {
+      backgroundColor: fade(theme.palette.common.white, 0.25),
+    },
+    marginRight: theme.spacing(2),
+    marginLeft: 0,
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: theme.spacing(3),
+      width: 'auto',
+    },
   },
-  marginRight: theme.spacing(2),
-  marginLeft: 0,
-  width: '100%',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(3),
-    width: 'auto',
-  },
-},
-searchIcon: {
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-},
-inputRoot: {
-  color: 'inherit',
-},
-inputInput: {
-  padding: theme.spacing(1, 1, 1, 0),
-  // vertical padding + font size from searchIcon
-  paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-  transition: theme.transitions.create('width'),
-  width: '100%',
-  [theme.breakpoints.up('md')]: {
-    width: '20ch',
-  },
-},
-sectionDesktop: {
-  display: 'none',
-  [theme.breakpoints.up('md')]: {
+  searchIcon: {
+    padding: theme.spacing(0, 2),
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
     display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-},
-sectionMobile: {
-  display: 'flex',
-  [theme.breakpoints.up('md')]: {
+  inputRoot: {
+    color: 'inherit',
+  },
+  inputInput: {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      width: '20ch',
+    },
+  },
+  sectionDesktop: {
     display: 'none',
+    [theme.breakpoints.up('md')]: {
+      display: 'flex',
+    },
   },
-}
+  sectionMobile: {
+    display: 'flex',
+    [theme.breakpoints.up('md')]: {
+      display: 'none',
+    },
+  }
 }));
 
 export default function NavBar() {
@@ -103,15 +103,20 @@ export default function NavBar() {
     window.location.href = "/aciddatabase";
   };
 
+  const navBaseDb = () => {
+    setAnchorEl(null);
+    window.location.href = "/basedatabase";
+  }
+
   const titrationNav = () => {
     setAnchorEl(null);
     window.location.href = "/titrationcurve";
   }
 
-  const calcNav = () => {
-    setAnchorEl(null);
-    window.location.href = "/calculator";
-  }
+  // const calcNav = () => {
+  //   setAnchorEl(null);
+  //   window.location.href = "/calculator";
+  // }
 
   const openMenu = () => {
     setOpen(true);
@@ -121,7 +126,7 @@ export default function NavBar() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static"> 
+      <AppBar position="static">
         <Toolbar className={classes.navBar}>
           <IconButton
             edge="start"
@@ -131,10 +136,10 @@ export default function NavBar() {
             onClick={handleMenu}>
             <MenuIcon />
             <Button
-            className={classes.menuButton}
-            onClick={openMenu}
+              className={classes.menuButton}
+              onClick={openMenu}
             >
-            Benzeeeeeen
+              Benzeeeeeen
             </Button>
             <Menu
               id="menu-appbar"
@@ -150,22 +155,26 @@ export default function NavBar() {
               }}
               open={open}
               onClose={handleClose}
-            > 
-                <MenuItem 
+            >
+              <MenuItem
                 onClick={handleClose} >
                 Close menu
                 </MenuItem>
-                          <MenuItem onClick={navHome} >
+              <MenuItem onClick={navHome} >
                 Home
                 </MenuItem>
               <MenuItem onClick={navAcidDb} >
 
                 Acid database
                 </MenuItem>
-                <MenuItem onClick={titrationNav}>
-                  Titration Curve
+              <MenuItem onClick={navBaseDb} >
+
+                Base database
+</MenuItem>
+              <MenuItem onClick={titrationNav}>
+                Titration Curve
                 </MenuItem>
-                {/* <MenuItem onClick={calcNav}>
+              {/* <MenuItem onClick={calcNav}>
                   Calculators home
                 </MenuItem> */}
             </Menu>

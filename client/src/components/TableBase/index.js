@@ -53,7 +53,7 @@ export default function CustomizedTables(props) {
   const [formDisplay, setFormDisplay] = useState(false);
   const [idToEdit, setIdToEdit] = useState("");
   const [nameToEdit, setNameToEdit] = useState("");
-  const [newPkn, setNewPkn] = useState("");
+  const [newPkb, setNewPkb] = useState("");
 
   //Loads all acids currently in the db
   useEffect(() => {
@@ -71,13 +71,15 @@ export default function CustomizedTables(props) {
   //On-click event for hitting the delete button
   const handleDelete = (event, idNum) => {
     event.preventDefault();
+    console.log("test");
+    
     //Need to target the id number to delete the acid
-    API.removeAcid(idNum)
+    API.removeBase(idNum)
       .then(res => console.log(res))
       .catch(err => console.log(err));
   }
 
-  //On-click event for clicking the edit button
+  // //On-click event for clicking the edit button
   const handleEdit = (event, idNum) => {
     event.preventDefault();
 
@@ -98,19 +100,19 @@ export default function CustomizedTables(props) {
     //Name is idToEdit and pKa is newPka - both custom hooks
     //Need to convert pKa to Ka
 
-    let pKa = parseInt(newPka);
-    pKa = pKa.toFixed(4);
-    let newKa = Math.pow(10, (-1*pKa));
-    newKa = newKa.toFixed(6);
+    let pKb = parseFloat(newPkb);
+    pKb = pKb.toFixed(4);
+    let newKb = Math.pow(10, (-1*pKb));
+    newKb = newKb.toFixed(6);
 
     let inputObject = {
       name: nameToEdit,
-      pKa: pKa,
-      Ka: newKa
+      pKb: pKb,
+      Kb: newKb
     }
 
     
-    API.updateAcid(idToEdit, inputObject)
+    API.updateBase(idToEdit, inputObject)
     .then(res =>{
       console.log(res.data);
       //Want to close the form
@@ -127,9 +129,9 @@ export default function CustomizedTables(props) {
   }
 
   // //Gets new pKa from the popup form
-  const handleNewpKa = event => {
+  const handleNewpKb = event => {
     event.preventDefault();
-    setNewPka(event.target.value);
+    setNewPkb(event.target.value);
   }
 
   return (
@@ -139,7 +141,7 @@ export default function CustomizedTables(props) {
       updateFromPopup={updateFromPopup}
       open={formDisplay}
       handleClose={dismissForm}
-      handleNewpKa={handleNewpKa}
+      handleNewpKa={handleNewpKb}
       />
       <TableContainer className={classes.container} component={Paper}>
         <Table className={classes.table} aria-label="customized table">
