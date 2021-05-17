@@ -29,7 +29,7 @@ function WeakBaseStrongAcid() {
         <Container fluid>
             <Grid item xs={12}>
                 <Paper className={classes.paper_main}>
-                    <h1>Strong acid/weak base titrations (In-progress)</h1>
+                    <h1>Strong acid/weak base titrations</h1>
                 </Paper>
                 <WeakBaseForm />
             </Grid>

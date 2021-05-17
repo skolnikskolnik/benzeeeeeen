@@ -171,8 +171,6 @@ function AcidDatabase() {
     window.location.reload(true);
   }
 
-
-
   //Toggles between pKa and Ka
   const manageRadio = event => {
     event.preventDefault();

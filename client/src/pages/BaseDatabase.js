@@ -113,6 +113,7 @@ function BaseDatabase() {
 
     //
     const generateBaseData = event => {
+        console.log("test");
         event.preventDefault();
 
         let pKb=0;

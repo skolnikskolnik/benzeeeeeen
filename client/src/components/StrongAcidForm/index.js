@@ -170,6 +170,10 @@ export default function TextFieldSizes() {
                 <Link href="/titrationcurve">
                             &nbsp; here.
               </Link></h4>
+              <h4>Want to see strong-acid/weak-base? Click
+                <Link href="/weakbasestrongacid">
+                            &nbsp; here.
+              </Link></h4>
                     
                 <div className={classes.inLine}>
                     <FormControl className={classes.formControl}>

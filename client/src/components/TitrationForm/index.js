@@ -205,9 +205,9 @@ export default function TextFieldSizes() {
                 <h4>Want to see strong-acid/strong-base? Click  
                 <Link href="/strongacidstrongbase">
                 &nbsp; here. </Link></h4>
-                {/* <h4>Want to see strong-acid/weak-base? Click  
+                <h4>Want to see strong-acid/weak-base? Click  
                 <Link href="/weakbasestrongacid">
-                &nbsp; here. </Link></h4> */}
+                &nbsp; here. </Link></h4>
                 <div className={classes.inLine}>
                     <FormControl className={classes.formControl}>
                         <Select
